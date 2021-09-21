@@ -1,0 +1,49 @@
+.table {
+  flex: 1 1 0;
+  text-align: right;
+  border-spacing: 0;
+}
+
+.table th,
+.table td {
+  flex: 1 1 0;
+}
+
+.table tr {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 576px) {
+  .table.bids thead {
+    visibility: hidden;
+  }
+}
+
+@media (min-width: 576px) {
+  .table.bids tr {
+    flex-direction: row-reverse;
+  }
+}
+
+.tableHeader th {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: normal;
+  font-size: 0.85rem;
+  padding: 0.25rem 0;
+  color: var(--subtitle-text-color);
+}
+
+.priceCell {
+  font-weight: bold;
+}
+
+.priceCell-green {
+  color: #33a575 !important;
+}
+
+.priceCell-red {
+  color: #ca1a1a !important;
+}

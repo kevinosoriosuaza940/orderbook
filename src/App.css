@@ -1,0 +1,8 @@
+.App {
+  background-color: var(--site-background-color);
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--main-text-color);
+}
