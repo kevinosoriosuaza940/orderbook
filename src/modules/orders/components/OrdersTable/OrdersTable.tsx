@@ -76,7 +76,7 @@ export default function OrdersTable({
                 {priceFormatter.format(Number(price))}
               </td>
               <td>{numberFormatter.format(amount)}</td>
-              <td >{numberFormatter.format(total)}</td>
+              <td>{numberFormatter.format(total)}</td>
             </tr>
           );
         })}

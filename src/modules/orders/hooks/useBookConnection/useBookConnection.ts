@@ -117,7 +117,6 @@ function useBookConnection({
     socket.addEventListener("open", subscribeToMarket);
     socket.addEventListener("message", handleNewMessage);
     socket.addEventListener("error", handleDisconnection);
-    // socket.addEventListener("close", handleDisconnection);
   }, [handleDisconnection, handleNewMessage, socket, subscribeToMarket]);
 
   useEffect(() => {
