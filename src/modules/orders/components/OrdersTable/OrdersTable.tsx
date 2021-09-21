@@ -56,29 +56,27 @@ export default function OrdersTable({
 
           return (
             <tr
-              data-testid={`order-row-${type}-${price}`}
               key={price}
               style={{
 
                 background: `
                   linear-gradient(
                     ${
-                      !isBidsTable && windowWidth > 576 ? "to right" : "to left"
+                      !isBidsTable && windowWidth > 0 ? "to right" : "to left"
                     },
                     ${isBidsTable ? "#3e212c" : "#103839"} ${totalPercentage},
                     transparent ${totalPercentage}
                   )`,
               }}
             >
-                            {/* `classes.priceCell ${ isBidsTable ? " red" : " green"}` */}
 
-              <td data-testid="price" 
+              <td 
               style={{color: `${isBidsTable ? 'red' : 'green'}`,}}
               >
                 {priceFormatter.format(Number(price))}
               </td>
-              <td data-testid="amount">{numberFormatter.format(amount)}</td>
-              <td data-testid="total">{numberFormatter.format(total)}</td>
+              <td>{numberFormatter.format(amount)}</td>
+              <td >{numberFormatter.format(total)}</td>
             </tr>
           );
         })}

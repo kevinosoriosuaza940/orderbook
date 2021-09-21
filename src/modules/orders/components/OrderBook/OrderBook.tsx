@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { BsArrowUpDown } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
-import { IoWarningOutline } from "react-icons/io5";
 import { BiErrorCircle } from "react-icons/bi";
 
 import useBookConnection from "../../hooks/useBookConnection";
@@ -19,7 +18,7 @@ export default function OrderBook(): JSX.Element {
   const [selectedMarket, setSelectedMarket] = useState<Markets>(defaultMarket);
   const tickSizes = tickSizesByMarket[selectedMarket];
   const [tickSize, setTickSize] = useState(tickSizes[0]);
-  const { connectionStatus, bids, asks, killFeed } = useBookConnection({
+  const { connectionStatus, bids, asks } = useBookConnection({
     tickSize,
     selectedMarket,
   });
@@ -53,19 +52,6 @@ export default function OrderBook(): JSX.Element {
           <h1 data-testid="orderbook-title" className={classes.title}>
             Order Book ({selectedMarket})
           </h1>
-          <select
-            data-testid="group-select"
-            value={tickSize}
-            onChange={(e) => setTickSize(Number(e.target.value))}
-            name="group"
-            className={classes.groupSelect}
-          >
-            {tickSizes.map((tickSize) => (
-              <option key={tickSize} value={tickSize}>
-                Group {tickSize}
-              </option>
-            ))}
-          </select>
         </div>
         <div className={classes.tablesContainer}>
           {isLoading && (
@@ -74,7 +60,9 @@ export default function OrderBook(): JSX.Element {
               <span>Loading orderbook data</span>
             </div>
           )}
-          {isReconnecting && (
+          {
+          isReconnecting &&
+           (
             <div className={`${classes.overlay} ${classes.loading}`}>
               <CgSpinner />
               <span>
@@ -98,13 +86,6 @@ export default function OrderBook(): JSX.Element {
           icon={<BsArrowUpDown />}
           text="Toggle Feed"
           onClick={handleToggleFeed}
-        />
-        <Button
-          disabled={!isSubscribed}
-          type="danger"
-          icon={<IoWarningOutline />}
-          text={isError ? "Restart feed" : "Kill Feed"}
-          onClick={killFeed}
         />
       </div>
     </div>

@@ -27,9 +27,7 @@ function useBookConnection({
   connectionStatus: ConnectionStatusEnum;
   asks: Order[];
   bids: Order[];
-  killFeed: () => void;
 } {
-  // Prevent evaluation new websocket in each render using useMemo
   const socketMemo = useMemo(() => new WebSocket(API_URL), []);
   const [socket, setSocket] = useState(socketMemo);
   const [connectionData, setConnectionData] = useState<{
@@ -54,22 +52,32 @@ function useBookConnection({
       market: selectedMarket,
     });
     socket.send(
-      '{"event":"subscribe","feed":"book_ui_1","product_ids":["PI_XBTUSD"]}');
+      JSON.stringify({
+        event: "subscribe",
+        feed: "book_ui_1",
+        product_ids: [selectedMarket],
+      })
+    );
   }, [selectedMarket, socket]);
+
 
   const unsubscribeFromMarket = useCallback(() => {
     setConnectionData({
       status: ConnectionStatusEnum.UNSUBSCRIBING,
     });
-    socket.send('{"event":"subscribe","feed":"book_ui_1","product_ids":["PI_XBTUSD"]}');
+    socket.send(
+      JSON.stringify({
+        event: "unsubscribe",
+        feed: "book_ui_1",
+        product_ids: [selectedMarket],
+      })
+    );
   }, [selectedMarket, socket]);
-
   const handleNewMessage = useCallback(
     (event: MessageEvent) => {
       const messageData: BookMessage = JSON.parse(event.data);
 
       if (messageData.event) {
-        // eslint-disable-next-line no-console
         console.log(messageData);
       }
 
@@ -81,11 +89,8 @@ function useBookConnection({
       } else if (
         ["subscribed_failed", "unsubscribed_failed"].includes(messageData.event)
       ) {
-        // @TODO: Improve handling of connection error events
-        // Try to subscribe or unsubscribe again to the same market
         setConnectionStatus(ConnectionStatusEnum.ERROR);
       } else if (messageData.feed === "book_ui_1_snapshot") {
-        // Initialize book data with snapshot
         setBookData({
           asks: processInitialOrders(messageData.asks),
           bids: processInitialOrders(messageData.bids),
@@ -107,22 +112,18 @@ function useBookConnection({
     }, 6000);
   }, [setConnectionStatus]);
 
-  const killFeed = useCallback(() => {
-    socket.close();
-  }, [socket]);
 
   const attachEventListeners = useCallback(() => {
     socket.addEventListener("open", subscribeToMarket);
     socket.addEventListener("message", handleNewMessage);
     socket.addEventListener("error", handleDisconnection);
-    socket.addEventListener("close", handleDisconnection);
+    // socket.addEventListener("close", handleDisconnection);
   }, [handleDisconnection, handleNewMessage, socket, subscribeToMarket]);
 
   useEffect(() => {
     attachEventListeners();
   }, [attachEventListeners]);
 
-  // Connect to the other market when unsubscription for first feed finishes (check handleNewMessage)
   useEffect(() => {
     if (
       connectionData.status === ConnectionStatusEnum.INITIAL &&
@@ -147,7 +148,6 @@ function useBookConnection({
     connectionStatus: connectionData.status,
     asks: processOrdersOutput(bookData.asks, tickSize),
     bids: processOrdersOutput(bookData.bids, tickSize),
-    killFeed,
   };
 }
 
