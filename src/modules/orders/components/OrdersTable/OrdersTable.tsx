@@ -56,6 +56,7 @@ export default function OrdersTable({
 
           return (
             <tr
+            data-testid={`order-row-${type}-${price}`}
               key={price}
               style={{
 
@@ -70,13 +71,13 @@ export default function OrdersTable({
               }}
             >
 
-              <td 
+              <td data-testid="price"
               style={{color: `${isBidsTable ? 'red' : 'green'}`,}}
               >
                 {priceFormatter.format(Number(price))}
               </td>
-              <td>{numberFormatter.format(amount)}</td>
-              <td>{numberFormatter.format(total)}</td>
+              <td  data-testid="amount" >{numberFormatter.format(amount)}</td>
+              <td data-testid="total">{numberFormatter.format(total)}</td>
             </tr>
           );
         })}

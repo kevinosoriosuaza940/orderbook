@@ -77,9 +77,9 @@ function useBookConnection({
     (event: MessageEvent) => {
       const messageData: BookMessage = JSON.parse(event.data);
 
-      if (messageData.event) {
-        console.log(messageData);
-      }
+      // if (messageData.event) {
+      //   console.log(messageData);
+      // }
 
       if (messageData.event === "subscribed") {
         setConnectionStatus(ConnectionStatusEnum.SUBSCRIBED);
