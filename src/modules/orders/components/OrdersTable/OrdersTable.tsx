@@ -1,8 +1,6 @@
 import React from "react";
 import { useWindowWidth } from "@react-hook/window-size";
-
 import classes from "./OrdersTable.module.css";
-
 import { Order } from "../../types";
 
 function addTotalToOrders(orders: Order[]) {
@@ -56,27 +54,24 @@ export default function OrdersTable({
 
           return (
             <tr
-            data-testid={`order-row-${type}-${price}`}
+              data-testid={`order-row-${type}-${price}`}
               key={price}
               style={{
-
                 background: `
                   linear-gradient(
-                    ${
-                      !isBidsTable && windowWidth > 0 ? "to right" : "to left"
-                    },
+                    ${!isBidsTable && windowWidth > 0 ? "to right" : "to left"},
                     ${isBidsTable ? "#3e212c" : "#103839"} ${totalPercentage},
                     transparent ${totalPercentage}
                   )`,
               }}
             >
-
-              <td data-testid="price"
-              style={{color: `${isBidsTable ? 'red' : 'green'}`,}}
+              <td
+                data-testid="price"
+                style={{ color: `${isBidsTable ? "red" : "green"}` }}
               >
                 {priceFormatter.format(Number(price))}
               </td>
-              <td  data-testid="amount" >{numberFormatter.format(amount)}</td>
+              <td data-testid="amount">{numberFormatter.format(amount)}</td>
               <td data-testid="total">{numberFormatter.format(total)}</td>
             </tr>
           );

@@ -27,7 +27,6 @@ afterEach(() => {
 const setupWSInitialData = async (market: Markets = defaultMarket) => {
   await ws.connected;
 
-  // Should send connection message
   await expect(ws).toReceiveMessage(JSON.stringify(subscribeMessage(market)));
 
   ws.send(JSON.stringify(subscribedMessage(market)));
@@ -80,9 +79,7 @@ describe("OrderBook", () => {
         product_id: "PI_XBTUSD",
         bids: [],
         asks: [
-          // Remove one price level
           [34817.0, 0],
-          // Modify one size
           [34821.5, 5000],
         ],
       })
@@ -90,7 +87,6 @@ describe("OrderBook", () => {
 
     const asksOrders = screen.getAllByTestId(/order-row-asks/i);
 
-    // Should remove the first ask
     expect(asksOrders).toHaveLength(asks.length - 1);
 
     expect(within(asksOrders[0]).getByTestId("price")).toHaveTextContent(
@@ -108,7 +104,6 @@ describe("OrderBook", () => {
 
     userEvent.click(screen.getByText(/Toggle feed/i));
 
-    // Should send unsubscribe message for previous market
     await expect(ws).toReceiveMessage(
       JSON.stringify({
         event: "unsubscribe",
@@ -117,35 +112,17 @@ describe("OrderBook", () => {
       })
     );
 
-    // Mock unsubscription message from server
     ws.send(JSON.stringify(unsubscribeMessage(Markets.PI_ETHUSD)));
 
     expect(screen.getByText("Loading orderbook data"));
 
-    // Should toggle the market
     expect(screen.getByTestId("orderbook-title")).toHaveTextContent(
       "PI_ETHUSD"
     );
 
-    // Should send subscribe message for new market
     await setupWSInitialData(Markets.PI_ETHUSD);
   });
 
-  // test("should handle different tick groups", async () => {
-  //   render(<OrderBook />);
-
-  //   await setupWSInitialData();
-
-
-  //   const asksOrders = screen.getAllByTestId(/order-row-asks/i);
-
-  //   expect(asksOrders).toHaveLength(10);
-  // });
-
-  // @TODO: Ad tests for
-  // - subscribe_failed and unsubscribe_failed socket messages
-  // - close connection
-  // - error message in connection
 });
 
-export {};
+export { };

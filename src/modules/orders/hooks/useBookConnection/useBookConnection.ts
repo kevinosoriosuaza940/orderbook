@@ -1,11 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
-
 import { Markets, ConnectionStatusEnum, Order } from "../../types";
-
 import { OrdersState, BookMessage } from "./types";
-
 import { API_URL } from "../../config";
-
 import {
   processInitialOrders,
   handleDeltas,
@@ -76,10 +72,6 @@ function useBookConnection({
   const handleNewMessage = useCallback(
     (event: MessageEvent) => {
       const messageData: BookMessage = JSON.parse(event.data);
-
-      // if (messageData.event) {
-      //   console.log(messageData);
-      // }
 
       if (messageData.event === "subscribed") {
         setConnectionStatus(ConnectionStatusEnum.SUBSCRIBED);
