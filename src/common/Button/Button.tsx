@@ -10,7 +10,7 @@ export default function Button({
 }: {
   text: string;
   icon?: JSX.Element;
-  type?: "main" | "danger";
+  type?: "main" ;
   [x: string]: any;
 }): JSX.Element {
   return (

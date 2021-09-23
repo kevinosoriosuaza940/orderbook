@@ -52,7 +52,7 @@ describe("OrderBook", () => {
     expect(within(bidsOrders[0]).getByTestId("price")).toHaveTextContent(
       "34,779.00"
     );
-    expect(within(bidsOrders[0]).getByTestId("amount")).toHaveTextContent(
+    expect(within(bidsOrders[0]).getByTestId("size")).toHaveTextContent(
       "63,210"
     );
 
@@ -61,7 +61,7 @@ describe("OrderBook", () => {
     expect(within(asksOrders[0]).getByTestId("price")).toHaveTextContent(
       "34,817.00"
     );
-    expect(within(asksOrders[0]).getByTestId("amount")).toHaveTextContent(
+    expect(within(asksOrders[0]).getByTestId("size")).toHaveTextContent(
       "1,000"
     );
   });
@@ -92,7 +92,7 @@ describe("OrderBook", () => {
     expect(within(asksOrders[0]).getByTestId("price")).toHaveTextContent(
       "34,821.50"
     );
-    expect(within(asksOrders[0]).getByTestId("amount")).toHaveTextContent(
+    expect(within(asksOrders[0]).getByTestId("size")).toHaveTextContent(
       "5,000"
     );
   });

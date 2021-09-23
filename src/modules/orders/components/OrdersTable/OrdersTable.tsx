@@ -6,11 +6,11 @@ import { Order } from "../../types";
 function addTotalToOrders(orders: Order[]) {
   let currentTotal = 0;
 
-  const ordersWithTotal = orders.map(([price, amount]) => {
-    currentTotal = currentTotal + amount;
+  const ordersWithTotal = orders.map(([price, size]) => {
+    currentTotal = currentTotal + size;
     return {
       price,
-      amount,
+      size,
       total: currentTotal,
     };
   });
@@ -49,7 +49,7 @@ export default function OrdersTable({
         </tr>
       </thead>
       <tbody>
-        {ordersWithTotal.map(({ total, amount, price }) => {
+        {ordersWithTotal.map(({ total, size, price }) => {
           const totalPercentage = `${(total / tableTotal) * 100}%`;
 
           return (
@@ -71,7 +71,7 @@ export default function OrdersTable({
               >
                 {priceFormatter.format(Number(price))}
               </td>
-              <td data-testid="amount">{numberFormatter.format(amount)}</td>
+              <td data-testid="size">{numberFormatter.format(size)}</td>
               <td data-testid="total">{numberFormatter.format(total)}</td>
             </tr>
           );
