@@ -1,7 +1,5 @@
 import { roundDownToInterval } from "../../../../utils";
-
 import { Order } from "../../types";
-
 import { OrdersObj, OrdersState } from "./types";
 
 export function processInitialOrders(orders: Order[]): OrdersObj {
